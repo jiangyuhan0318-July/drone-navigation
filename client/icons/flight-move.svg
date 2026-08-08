@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="225px" height="230px" viewBox="0 0 225 230" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>画板</title>
+    <g id="画板" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <line x1="112" y1="72" x2="112" y2="32" id="路径" stroke="currentColor" stroke-width="10" fill="currentColor" fill-rule="nonzero" stroke-linecap="round"></line>
+        <polygon id="路径" stroke="currentColor" stroke-width="10" fill="currentColor" fill-rule="nonzero" stroke-linecap="round" points="112 24 105 38 119 38"></polygon>
+        <line x1="112" y1="160" x2="112" y2="200" id="路径" stroke="currentColor" stroke-width="5" fill="currentColor" fill-rule="nonzero" stroke-linecap="round"></line>
+        <polygon id="路径" stroke="currentColor" stroke-width="5" fill="currentColor" fill-rule="nonzero" stroke-linecap="round" points="112 208 105 194 119 194"></polygon>
+        <line x1="156" y1="116" x2="196" y2="116" id="路径" stroke="currentColor" stroke-width="5" fill="currentColor" fill-rule="nonzero" stroke-linecap="round"></line>
+        <polygon id="路径" stroke="currentColor" stroke-width="5" fill="currentColor" fill-rule="nonzero" stroke-linecap="round" points="204 116 190 109 190 123"></polygon>
+        <line x1="68" y1="116" x2="28" y2="116" id="路径" stroke="currentColor" stroke-width="5" fill="currentColor" fill-rule="nonzero" stroke-linecap="round"></line>
+        <polygon id="路径" stroke="currentColor" stroke-width="5" fill="currentColor" fill-rule="nonzero" stroke-linecap="round" points="20 116 34 109 34 123"></polygon>
+        <text id="w" font-family="ArialMT, Arial" font-size="20" font-weight="normal" fill="#525050">
+            <tspan x="88.2783203" y="65">w</tspan>
+        </text>
+        <text id="a" font-family="ArialMT, Arial" font-size="20" font-weight="normal" fill="#525050">
+            <tspan x="51.9384766" y="137">a</tspan>
+        </text>
+        <text id="s" font-family="ArialMT, Arial" font-size="20" font-weight="normal" fill="#525050">
+            <tspan x="123.5" y="181">s</tspan>
+        </text>
+        <text id="d" font-family="ArialMT, Arial" font-size="20" font-weight="normal" fill="#525050">
+            <tspan x="160.938477" y="109">d</tspan>
+        </text>
+    </g>
+</svg>

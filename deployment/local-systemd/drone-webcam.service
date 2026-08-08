@@ -1,0 +1,20 @@
+# Demo publisher: WHIP-ingests the local webcam as the 'ubuntu-webcam' stream.
+# Enabled by default so Livestream works with zero terminals; disable it when a
+# real drone publishes instead:
+#   systemctl --user disable --now drone-webcam
+[Unit]
+Description=Webcam WHIP publisher (drone-navigation demo stream)
+After=drone-mediamtx.service
+Wants=drone-mediamtx.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/drone-navigation/extension/simple_webcam
+Environment=MEDIAMTX_URL=http://127.0.0.1:8889
+Environment=MEDIAMTX_API=http://127.0.0.1:9997
+ExecStart=%h/miniconda3/envs/drone-navigation/bin/python simple_webcam.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

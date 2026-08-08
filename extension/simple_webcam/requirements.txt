@@ -1,0 +1,17 @@
+# WHIP webcam publisher dependencies (Python 3.12, see simple_webcam.py).
+# 1. Create a conda environment (system Python 3.12 works)
+# conda create -n drone-navigation python=3.12 -y
+# conda config --set auto_activate_base false
+# conda activate drone-navigation
+
+# 2. Install dependencies — see server/requirements.txt:
+#    fastapi-users[sqlalchemy]  (FastAPIUsers, JWT strategy, OAuth routers)
+#    sqlalchemy[asyncio] + asyncpg  (async PostgreSQL driver)
+#    aiosmtplib + email-validator   (verification / password-reset emails)
+#    httpx-oauth                    (Google OAuth)
+# pip install -r requirements.txt
+
+opencv-python
+aiortc
+av          # PyAV: imported directly (VideoFrame); also an aiortc dependency
+aiohttp

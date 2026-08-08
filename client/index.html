@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>3D Drone Aerial</title>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.125/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.125/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- No <link rel="preload" as="video"> here: Chrome does not support the
+         'video' fetch destination, so the hint is ignored (console warning)
+         and would only double-download. The first splash clip is small and
+         stream-encoded; splash.js starts it on the 'canplay' event. -->
+</head>
+<body>
+    <div id="cesiumContainer"></div>
+
+    <!-- Vue 3 application overlay -->
+    <div id="app"></div>
+
+    <!-- Splash screen: full-screen overlay with sequential video clips -->
+    <div id="splash-overlay">
+        <video id="splash-video" muted playsinline autoplay preload="auto"></video>
+        <div id="splash-progress"></div>
+        <div id="splash-bottom">
+            <p id="splash-slogan"></p>
+        </div>
+        <div id="splash-volume" title="Music volume">
+            <img id="splash-volume-icon" src="/icons/audio.svg" alt="Audio" width="22" height="22">
+            <input type="range" id="splash-volume-slider" min="0" max="100" value="90" aria-label="Music volume">
+        </div>
+    </div>
+
+    <script type="module">
+      // Expose the Google Maps loader to the plain splash script so it can
+      // verify the Google connection before allowing splash dismissal.
+      import { loadGoogleMaps } from '/src/2d_map/googleMaps.js';
+      window.__loadGoogleMapsForSplash = loadGoogleMaps;
+    </script>
+    <script src="/splash.js"></script>
+    <script type="module" src="src/cesium-main.js"></script>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
+

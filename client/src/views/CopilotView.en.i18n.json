@@ -1,0 +1,20 @@
+{
+  "page_copilot": "Copilot",
+  "page_title": "AI Flight Copilot",
+  "nav_pages": "Pages",
+  "online": "Connected",
+  "status_idle": "Idle",
+  "status_connecting": "Connecting",
+  "status_connected": "Connected",
+  "status_error": "Error",
+  "status_closed": "Disconnected",
+  "type_a_message": "Tell the copilot what you want the drone to do…",
+  "send": "Send",
+  "flight_gate": "Flight Gate",
+  "gate_on": "Armed",
+  "gate_off": "Disarmed",
+  "gate_hint": "While disarmed the copilot can only query status, never move the drone. Arm before takeoff and stay alert while flying.",
+  "telemetry": "Live Telemetry",
+  "livestream": "Live View",
+  "no_stream": "No stream available"
+}

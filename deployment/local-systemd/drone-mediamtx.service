@@ -1,0 +1,14 @@
+# MediaMTX (Livestream) — WHIP/WHEP :8889, HLS :8888, control API 127.0.0.1:9997.
+[Unit]
+Description=MediaMTX media server (drone-navigation, WHIP/WHEP :8889)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/mediamtx_v1.9.0
+ExecStart=%h/mediamtx_v1.9.0/mediamtx %h/mediamtx_v1.9.0/mediamtx.yml
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

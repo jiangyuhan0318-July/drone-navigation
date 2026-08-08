@@ -1,0 +1,4 @@
+{
+  "load_failed": "Could not load Google Map",
+  "api_hint": "Verify that Maps JavaScript API is enabled for your API key."
+}

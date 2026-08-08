@@ -1,0 +1,12 @@
+{
+  "page_title": "Customer Service",
+  "nav_pages": "Pages",
+  "ad_placeholder": "Advertisement Area",
+  "placeholder_send": "Type a message...",
+  "send": "Send",
+  "status_idle": "Idle",
+  "status_connecting": "Connecting",
+  "status_connected": "Connected",
+  "status_error": "Connection Error",
+  "status_closed": "Disconnected"
+}

@@ -1,0 +1,10 @@
+{
+  "googleApiKey": "YOUR_GOOGLE_MAPS_API_KEY",
+  "cesiumIonToken": "YOUR_CESIUM_ION_ACCESS_TOKEN",
+  "openclaw": {
+    "url": "ws://127.0.0.1:18789",
+    "token": "YOUR_OPENCLAW_TOKEN"
+  },
+  "_note": "The Google API key must have both Map Tiles API and Maps JavaScript API enabled for 3D aerial tiles, Street View, and the 2D map toggle.",
+  "_note_openclaw": "openclaw.url: keep ws://127.0.0.1:18789 for local dev (HTTPS pages auto-derive wss://<visited-host>/ws). Production pins the apex — wss://drone-navigation.com/ws — because the Alibaba CDN edge cannot proxy WebSocket. See deployment/README.md §1.2.3."
+}

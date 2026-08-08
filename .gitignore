@@ -1,0 +1,39 @@
+# New README (pending review — do not upload yet)
+README_NEW.md
+
+# Cache files
+**/cache/
+*.pyc
+__pycache__/
+
+# Dependencies
+node_modules/
+
+# Config with secrets
+client/config.json
+server/config.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+nohup.out
+
+# Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Backup files
+*.bak
+*.bak.*

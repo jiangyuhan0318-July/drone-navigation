@@ -1,0 +1,176 @@
+{
+	# We remove 'auto_https off' so Caddy can automatically fetch certificates!
+	# The CDN edge domains use `tls internal`; never try to install the local
+	# root CA into the OS trust store (the caddy service user has no sudo,
+	# and the CDN does its own origin verification anyway).
+	skip_install_trust
+
+	# Enables verbose DEBUG logging
+	# debug
+
+	# Restrict Caddy to only offer HTTP/1.1 during TLS negotiation (Port 443)
+	servers {
+		protocols h1
+	}
+}
+
+# 1. Direct Origin Domain (Public Let's Encrypt Cert + WebSocket Gateway)
+drone-navigation.com {
+	# Reverse Proxy for OpenClaw WebSocket Gateway
+	# (plain `handle` keeps the path; the gateway expects its WS endpoint at
+	# the root, so rewrite /ws -> / before proxying)
+	handle /ws* {
+		# Origin allowlist: WebSocket has no CORS, so the server must
+		# validate the browser Origin itself. Requests without an Origin
+		# header (curl, server-to-server) pass; a foreign Origin gets 403.
+		@badOrigin {
+			header_regexp Origin .+
+			not header Origin https://drone-navigation.com
+			not header Origin https://www.drone-navigation.com
+			not header Origin https://cdn.drone-navigation.com
+		}
+		respond @badOrigin 403
+
+		# rewrite * /
+		reverse_proxy 127.0.0.1:18789 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto https
+
+			# Mandatory WebSocket upgrade headers
+			# header_up Connection {>Connection}
+			# header_up Upgrade {>Upgrade}
+
+			# Infinite timeout for long-lived WS connections
+			transport http {
+				read_timeout 0
+				write_timeout 0
+			}
+		}
+	}
+
+	# MediaMTX Control API (proxied across ECS servers to 47.85.110.135)
+	handle_path /control-api/* {
+		reverse_proxy 47.85.110.135:9997 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+
+	# FastAPI backend (auth/users/settings; plain `handle` keeps the /api
+	# prefix — FastAPI routes include it)
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8000 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+
+	# Synapse Matrix client API (over the Tailscale mesh to ECS 2; plain
+	# `handle` keeps the /_matrix prefix — Synapse routes include it)
+	handle /_matrix/* {
+		reverse_proxy 100.68.213.55:8008 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# Strip the '/live' prefix before sending the request to MediaMTX
+	handle_path /live/* {
+		reverse_proxy 47.85.110.135:8889 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+
+			# Ensure internal MediaMTX redirects maintain the /live/ subpath
+			header_down Location ^/ /live/
+
+			# MediaMTX <= v1.11 ties a WHIP/WHEP WebRTC session to the lifetime
+			# of this proxied HTTP connection: when the idle upstream connection
+			# is reaped (~90 s default), the WebRTC session dies with it. Keep
+			# upstream connections alive far longer; dead sessions are still
+			# reaped by MediaMTX's own PeerConnection monitoring, so no leak.
+			transport http {
+				keepalive 24h
+			}
+		}
+	}
+
+	# Serve Static Web App
+	handle {
+		root * /var/www/drone-navigation/client/dist
+		file_server
+		encode gzip zstd
+		try_files {path} /index.html
+	}
+}
+
+# 2. CDN Edge Domains (Serves HTTPS origin fetches using Caddy's internal TLS certificate)
+www.drone-navigation.com, cdn.drone-navigation.com {
+	tls internal
+
+	# OpenClaw WebSocket gateway (identical to the apex block; the CDN in
+	# front must also forward WS upgrades for this to work end-to-end)
+	handle_path /ws* {
+		# Origin allowlist (identical policy to the apex block; see there).
+		@badOrigin {
+			header_regexp Origin .+
+			not header Origin https://drone-navigation.com
+			not header Origin https://www.drone-navigation.com
+			not header Origin https://cdn.drone-navigation.com
+		}
+		respond @badOrigin 403
+
+		# rewrite * /
+		reverse_proxy 127.0.0.1:18789 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto https
+
+			# Mandatory WebSocket upgrade headers
+			# header_up Connection {>Connection}
+			# header_up Upgrade {>Upgrade}
+
+			# Infinite timeout for long-lived WS connections
+			transport http {
+				read_timeout 0
+				write_timeout 0
+			}
+		}
+	}
+
+	# FastAPI backend (identical to the apex block; the CDN in front
+	# forwards /api/* to the origin unchanged)
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8000 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+
+	# Synapse Matrix client API (identical to the apex block; over the
+	# Tailscale mesh to ECS 2)
+	handle /_matrix/* {
+		reverse_proxy 100.68.213.55:8008 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	# Static Web App — MUST stay inside a catch-all handle{} block: a
+	# top-level try_files runs before `handle` matching and would rewrite
+	# /ws to /index.html, breaking the WebSocket proxy.
+	handle {
+		root * /var/www/drone-navigation/client/dist
+		file_server
+		encode gzip zstd
+		try_files {path} /index.html
+	}
+}

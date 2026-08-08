@@ -1,0 +1,27 @@
+{
+  "name": "drone-navigation-client",
+  "version": "1.0.0",
+  "description": "Vue 3 desktop drone control dashboard with dual joysticks and chat",
+  "type": "module",
+  "scripts": {
+    "prebuild": "node scripts/generate-splash-manifest.js",
+    "predev": "node scripts/generate-splash-manifest.js",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "matrix-js-sdk": "^42.0.0",
+    "vue": "^3.4.27",
+    "vue-i18n": "^9.14.5",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "vite": "^5.2.12"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true,
+    "fsevents@2.3.3": true
+  }
+}

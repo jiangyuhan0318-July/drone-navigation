@@ -1,0 +1,20 @@
+{
+  "page_copilot": "副驾驶",
+  "page_title": "AI 飞行副驾驶",
+  "nav_pages": "页面",
+  "online": "已连接",
+  "status_idle": "空闲",
+  "status_connecting": "连接中",
+  "status_connected": "已连接",
+  "status_error": "连接错误",
+  "status_closed": "已断开",
+  "type_a_message": "告诉副驾驶你想让飞机做什么……",
+  "send": "发送",
+  "flight_gate": "飞行许可",
+  "gate_on": "已开启",
+  "gate_off": "已关闭",
+  "gate_hint": "关闭时副驾驶只能查询状态，无法让飞机移动。起飞前请先开启，并在飞行中保持警惕。",
+  "telemetry": "实时遥测",
+  "livestream": "实时画面",
+  "no_stream": "暂无直播流"
+}

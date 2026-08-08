@@ -1,0 +1,212 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Calibri, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#cesiumContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  z-index: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+#cesiumContainer.cesium-hidden {
+  opacity: 0;
+}
+
+#app {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* ─── Splash Screen ─────────────────────────────────────────────── */
+#splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 2s ease-in-out;
+}
+
+#splash-overlay.splash-fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#splash-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.splash-video-alt {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#splash-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+
+#splash-progress::after {
+  content: '';
+  display: block;
+  width: 30%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  animation: splash-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes splash-pulse {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(430%); }
+}
+
+/* ─── Splash Bottom Content (slogan + QR) ──────────────────────── */
+#splash-bottom {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  animation: splash-fade-in 1.2s ease-out 0.5s forwards;
+}
+
+#splash-slogan {
+  color: #ffffff;
+  font-size: clamp(1.4rem, 4.2vw, 2.5rem);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(200, 220, 255, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.6);
+  margin: 0;
+  padding: 0 20px;
+}
+
+@keyframes splash-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Centered connection error message on the splash screen */
+.splash-connection-error {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border-radius: 8px;
+  background: rgba(220, 20, 60, 0.88);
+  color: #ffffff;
+  font-family: Calibri, 'Segoe UI', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 0 0 18px rgba(220, 20, 60, 0.9);
+  animation: splash-warning-pulse 1s ease-in-out infinite;
+}
+
+.splash-connection-error__icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.splash-connection-error__text {
+  letter-spacing: 0.02em;
+}
+
+@keyframes splash-warning-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 18px rgba(220, 20, 60, 0.9);
+  }
+  50% {
+    opacity: 0.72;
+    box-shadow: 0 0 42px rgba(220, 20, 60, 1);
+  }
+}
+
+/* Vertical music volume slider at the bottom-right of the splash screen */
+#splash-volume {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 44px;
+  height: 116px;
+  padding-top: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 22px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  pointer-events: auto;
+}
+
+#splash-volume-icon {
+  width: 22px;
+  height: 22px;
+  color: #ffffff;
+  opacity: 0.9;
+  margin-bottom: 8px;
+  pointer-events: none;
+}
+
+#splash-volume-slider {
+  -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
+  width: 28px;
+  height: 70px;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+#splash-volume-slider:hover {
+  opacity: 1;
+}

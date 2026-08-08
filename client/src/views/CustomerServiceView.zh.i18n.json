@@ -1,0 +1,12 @@
+{
+  "page_title": "客服",
+  "nav_pages": "页面",
+  "ad_placeholder": "广告区域",
+  "placeholder_send": "输入消息...",
+  "send": "发送",
+  "status_idle": "空闲",
+  "status_connecting": "连接中",
+  "status_connected": "已连接",
+  "status_error": "连接错误",
+  "status_closed": "已断开"
+}

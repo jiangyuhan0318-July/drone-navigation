@@ -1,0 +1,22 @@
+[Unit]
+Description=Synapse Matrix homeserver (drone-navigation Community chat)
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/synapse-data
+
+# Virtualenv binaries on PATH (venv built from the SYSTEM python3 — see
+# deployment/README.md section 3.5: conda's SQLite lacks FTS4, which Synapse needs)
+Environment="PATH=/root/synapse-venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# Absolute path to the virtualenv's python executable
+ExecStart=/root/synapse-venv/bin/python -m synapse.app.homeserver -c /root/synapse-data/homeserver.yaml
+Restart=always
+RestartSec=5
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

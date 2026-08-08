@@ -1,0 +1,26 @@
+[Unit]
+Description=FastAPI Uvicorn Daemon for Drone Navigation
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/drone-navigation/server
+
+# Set environment PATH so Conda packages & Python binaries load correctly
+Environment="PATH=/root/miniconda3/envs/drone-navigation/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# Absolute path to the Conda environment's uvicorn executable.
+# MUST stay at --workers 1: the drone telemetry/command channels keep their
+# WebSocket state in process memory (telemetry.py: _publisher/_subscribers;
+# drone_commands.py: _downlink/_commander). With multiple workers each
+# connection lands on a random process, so the desktop relay and a browser
+# end up in different processes and commands/telemetry silently stop flowing.
+ExecStart=/root/miniconda3/envs/drone-navigation/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1
+
+# Automatically restart if Uvicorn crashes
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

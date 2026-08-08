@@ -1,0 +1,13 @@
+# Matrix Synapse (Community chat, 127.0.0.1:8008) — local dev homeserver.
+[Unit]
+Description=Matrix Synapse homeserver (drone-navigation, port 8008)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=%h/synapse-venv/bin/python -m synapse.app.homeserver -c %h/synapse-data/homeserver.yaml
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

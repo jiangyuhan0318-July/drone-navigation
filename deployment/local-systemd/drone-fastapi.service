@@ -1,0 +1,17 @@
+# FastAPI backend (auth + settings + Matrix brokering, port 8000).
+# --reload is kept for dev ergonomics: .py edits auto-apply;
+# config.json edits still need `touch app/main.py` (watches .py only).
+[Unit]
+Description=FastAPI backend (drone-navigation, port 8000)
+After=drone-pg.service
+Wants=drone-pg.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/drone-navigation/server
+ExecStart=%h/miniconda3/envs/drone-navigation/bin/uvicorn app.main:app --reload --port 8000
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

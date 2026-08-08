@@ -1,0 +1,18 @@
+{
+  "flight": "飞行",
+  "camera": "相机",
+  "position": "位置",
+  "direction": "方向",
+  "gimbal": "云台",
+  "mode": "模式:",
+  "lat": "纬度:",
+  "lon": "经度:",
+  "alt": "高度:",
+  "yaw": "Z (偏航):",
+  "pitch": "Y (俯仰):",
+  "roll": "X (横滚):",
+  "link": "链路",
+  "live": "在线",
+  "lost": "断开",
+  "battery": "电池"
+}

@@ -1,0 +1,19 @@
+# PostgreSQL dev cluster (port 5433, data dir ~/pgdata) — local Ubuntu desktop.
+# Install: cp deployment/local-systemd/*.service ~/.config/systemd/user/
+#          systemctl --user daemon-reload
+[Unit]
+Description=PostgreSQL dev cluster (drone-navigation, port 5433)
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/lib/postgresql/14/bin/postgres -D %h/pgdata
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutStopSec=60
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
